@@ -1,0 +1,46 @@
+# Makefile Template for Backend Service
+
+.PHONY: help build run test clean dev
+
+help: ## Display this help message
+	@echo "Available commands:"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}'
+
+build: ## Build the backend binary
+	go build -o bin/videdit-backend ./cmd/server
+
+run: ## Run the backend server
+	go run ./cmd/server/main.go
+
+dev: ## Run with hot reload (requires air)
+	air
+
+test: ## Run tests
+	go test -v ./...
+
+test-coverage: ## Run tests with coverage
+	go test -v -coverprofile=coverage.out ./...
+	go tool cover -html=coverage.out
+
+lint: ## Run linter
+	golangci-lint run
+
+fmt: ## Format code
+	go fmt ./...
+	goimports -w .
+
+clean: ## Clean build artifacts
+	rm -rf bin/
+	rm -f coverage.out
+
+migrate-up: ## Run database migrations up
+	go run ./cmd/migrate/main.go up
+
+migrate-down: ## Run database migrations down
+	go run ./cmd/migrate/main.go down
+
+docker-build: ## Build Docker image
+	docker build -t videdit-backend .
+
+docker-run: ## Run Docker container
+	docker run -p 3000:3000 --env-file .env videdit-backend

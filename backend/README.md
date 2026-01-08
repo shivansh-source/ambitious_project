@@ -1,6 +1,6 @@
-# Backend Services
+# Backend Services (Go)
 
-This directory contains the backend services for the AI-powered video editor with Git-like versioning.
+This directory contains the backend API services for the AI-powered video editor with Git-like versioning.
 
 ## Structure
 
@@ -13,13 +13,6 @@ REST API endpoints for:
 - AI service integration endpoints
 
 ### `/services`
-
-#### `/versioning`
-Git-like versioning engine for video projects:
-- Track changes to video timelines, effects, and assets
-- Branch management for experimental edits
-- Merge conflict resolution for collaborative editing
-- Version history and rollback functionality
 
 #### `/ai-processing`
 Integration layer for AI services:
@@ -39,7 +32,6 @@ Real-time collaboration features:
 Database models and schemas:
 - User and authentication models
 - Project and video models
-- Version control metadata
 - Collaboration data structures
 
 ### `/database`
@@ -49,7 +41,7 @@ Database migrations and seeders:
 - Sample data for development
 
 ### `/middleware`
-Express/API middleware:
+Gin middleware:
 - Authentication and authorization
 - Rate limiting
 - Request validation
@@ -63,8 +55,12 @@ Shared utilities and helpers:
 - Configuration management
 
 ## Technology Stack
-- **Runtime**: Node.js / Go (choose based on performance needs)
-- **API Framework**: Express.js / Gin / FastAPI
+- **Runtime**: Go 1.21+
+- **Framework**: Gin
 - **Database**: PostgreSQL (relational data) + MongoDB (video metadata)
 - **Cache**: Redis (sessions, real-time data)
 - **Message Queue**: RabbitMQ / Kafka (async processing)
+- **WebSocket**: Gorilla WebSocket
+
+## Note on Version Control
+The Git-like version control engine has been moved to `/versioning` and is implemented in Python as an AI-powered agentic system. The backend API provides HTTP endpoints to interact with the versioning service.

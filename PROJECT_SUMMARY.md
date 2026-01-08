@@ -18,10 +18,9 @@ This project implements a comprehensive folder structure for **VideEdit**, an AI
 - **Purpose**: API server and business logic
 - **Features**:
   - REST API endpoints
-  - Git-like version control engine
   - Real-time collaboration server
   - AI service integration
-- **Tech**: Node.js/Go + Express/Gin + PostgreSQL + MongoDB + Redis
+- **Tech**: Go + Gin + PostgreSQL + MongoDB + Redis
 
 #### 2. Frontend (`/frontend`)
 - **Purpose**: Web-based video editor interface
@@ -30,7 +29,7 @@ This project implements a comprehensive folder structure for **VideEdit**, an AI
   - Real-time preview
   - Collaborative editing with live cursors
   - AI assistance panel
-- **Tech**: React/Vue + WebCodecs + Fabric.js + Socket.io
+- **Tech**: React + WebCodecs + Fabric.js + Socket.io
 
 #### 3. AI Services (`/ai-services`)
 - **Purpose**: Machine learning powered features
@@ -42,13 +41,13 @@ This project implements a comprehensive folder structure for **VideEdit**, an AI
 - **Tech**: Python + TensorFlow/PyTorch + FastAPI + OpenCV
 
 #### 4. Versioning Engine (`/versioning`)
-- **Purpose**: Git-like version control for video projects
+- **Purpose**: AI-powered version control for video projects
 - **Features**:
-  - Commit system for timeline snapshots
-  - Branch creation and management
+  - LLM-powered commit message generation
   - Intelligent merge with conflict resolution
-  - Complete history tracking
-- **Tech**: Custom implementation inspired by Git internals
+  - AI-assisted branch management
+  - Semantic diff analysis
+- **Tech**: Python + FastAPI + OpenAI/Anthropic + PostgreSQL
 
 #### 5. Storage (`/storage`)
 - **Purpose**: Video file and asset management
@@ -101,11 +100,11 @@ Working examples to demonstrate the architecture:
   - Real-time collaboration cursors
   - Clip manipulation (split, trim, resize)
 
-- **Version Control Engine** (`versioning/git-engine/engine.js`)
-  - Commit creation and history
-  - Branch management
-  - Merge algorithms
-  - Diff calculations
+- **Agentic Version Engine** (`versioning/agentic_engine.py`)
+  - AI-powered commit creation with LLM
+  - Intelligent merge algorithms
+  - Semantic diff analysis
+  - Branch management with AI insights
 
 - **Video Analyzer** (`ai-services/video-analysis/analyzer.py`)
   - Scene detection
@@ -113,19 +112,23 @@ Working examples to demonstrate the architecture:
   - Audio analysis
   - Quality assessment
 
-- **API Routes** (`backend/api/routes/version.js`)
+- **API Routes** (`backend/api/routes/version.go`)
   - Version control endpoints
   - RESTful API design
   - Authentication middleware
 
 ## Key Features
 
-### 🔄 Version Control (Like Git)
+### 🔄 AI-Powered Version Control
 ```
-videdit commit -m "Added intro sequence"
+# AI generates semantic commit messages
+videdit commit  # Auto: "Add intro sequence with logo animation"
+
+# Create experimental branch
 videdit branch experimental-edit
-videdit checkout experimental-edit
-videdit merge main
+
+# AI-assisted merge with conflict resolution
+videdit merge main  # AI suggests: "Offset clips to avoid overlap"
 ```
 
 ### 👥 Real-Time Collaboration
@@ -201,24 +204,36 @@ cd ambitious_project
 
 ### Why These Technologies?
 
-**Frontend - React/Vue**
+**Frontend - React**
 - Component-based architecture
 - Rich ecosystem
 - WebCodecs API for video
 - Large community
+- Best-in-class video editing libraries
 
-**Backend - Node.js/Go**
-- JavaScript: Ecosystem consistency
-- Go: High performance option
-- Both: Excellent for real-time features
+**Backend - Go**
+- High performance and concurrency
+- Excellent for real-time features
+- Strong typing and reliability
+- Fast compilation and deployment
+- Great WebSocket support
 
-**AI - Python**
+**Versioning - Python (Agentic)**
+- AI/LLM integration (OpenAI, Anthropic)
+- Rich ML ecosystem for intelligent features
+- FastAPI for high-performance API
+- Easy integration with AI services
+
+**AI Services - Python**
 - Best ML/AI library support
 - TensorFlow, PyTorch, OpenCV
 - Easy to prototype and deploy
+- GPU acceleration support
 
 **Databases**
 - PostgreSQL: Relational data (users, projects)
+- MongoDB: Flexible timeline structures
+- Redis: Real-time data, caching
 - MongoDB: Flexible timeline structures
 - Redis: Real-time data, caching
 

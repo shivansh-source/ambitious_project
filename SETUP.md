@@ -25,7 +25,7 @@ If you prefer to set up manually or want to understand each step:
 
 Install the required software:
 
-- **Node.js** 18+ ([Download](https://nodejs.org/))
+- **Go** 1.21+ ([Download](https://go.dev/dl/))
 - **Python** 3.9+ ([Download](https://www.python.org/downloads/))
 - **Docker** & Docker Compose ([Download](https://docs.docker.com/get-docker/))
 - **Git** ([Download](https://git-scm.com/downloads))
@@ -37,21 +37,24 @@ git clone https://github.com/shivansh-source/ambitious_project.git
 cd ambitious_project
 ```
 
-### 3. Setup Backend
+### 3. Setup Backend (Go)
 
 ```bash
 cd backend
 
 # Copy template and remove the comment header
-cp package.json.template package.json
-# Edit package.json and remove line 1: "# Package.json Template for Backend Service"
+cp go.mod.template go.mod
+# Edit go.mod and remove line 1-2: "# Go Module Template for Backend Service"
 
-# Install dependencies
-npm install
+# Copy Makefile template
+cp Makefile.template Makefile
+
+# Download dependencies
+go mod download
 
 # Create environment file
 cat > .env << 'EOF'
-NODE_ENV=development
+ENV=development
 PORT=3000
 DATABASE_URL=postgresql://videdit:videdit_dev_password@localhost:5432/videdit
 MONGODB_URL=mongodb://videdit:videdit_dev_password@localhost:27017/videdit
@@ -84,9 +87,10 @@ EOF
 cd ..
 ```
 
-### 5. Setup AI Services
+### 5. Setup AI Services & Versioning
 
 ```bash
+# Setup AI Services
 cd ai-services
 
 # Copy template and remove the comment header
@@ -106,6 +110,26 @@ REDIS_URL=redis://localhost:6379
 RABBITMQ_URL=amqp://videdit:videdit_dev_password@localhost:5672
 MODEL_PATH=/path/to/models
 GPU_ENABLED=false
+EOF
+
+cd ..
+
+# Setup Agentic Versioning (Python)
+cd versioning
+
+# Use same virtual environment or create new one
+source ../ai-services/venv/bin/activate
+
+# Install additional dependencies for versioning
+pip install openai anthropic  # For LLM integration
+
+# Create environment file
+cat > .env << 'EOF'
+OPENAI_API_KEY=your-openai-key-here
+# OR
+ANTHROPIC_API_KEY=your-anthropic-key-here
+REDIS_URL=redis://localhost:6379
+DATABASE_URL=postgresql://videdit:videdit_dev_password@localhost:5432/videdit
 EOF
 
 cd ..
@@ -143,10 +167,11 @@ cd ../../backend
 
 Open separate terminal windows for each service:
 
-**Terminal 1 - Backend:**
+**Terminal 1 - Backend (Go):**
 ```bash
 cd backend
-npm run dev
+make run
+# OR: go run ./cmd/server/main.go
 # Server should start on http://localhost:3000
 ```
 
@@ -163,6 +188,14 @@ cd ai-services
 source venv/bin/activate  # If using virtual environment
 uvicorn main:app --reload --port 8000
 # Server should start on http://localhost:8000
+```
+
+**Terminal 4 - Versioning Service (Python):**
+```bash
+cd versioning
+source venv/bin/activate  # If using virtual environment
+python -m uvicorn api:app --reload --port 8001
+# Server should start on http://localhost:8001
 ```
 
 ### 9. Verify Setup
@@ -182,9 +215,10 @@ git checkout -b feature/your-feature
 ```
 
 2. Make your changes in the appropriate directory:
-   - Backend: `backend/`
-   - Frontend: `frontend/`
-   - AI Services: `ai-services/`
+   - Backend (Go): `backend/`
+   - Frontend (React): `frontend/`
+   - AI Services (Python): `ai-services/`
+   - Versioning (Python): `versioning/`
    - Docs: `docs/`
 
 3. Test your changes locally
@@ -199,11 +233,23 @@ git push origin feature/your-feature
 ### Running Tests
 
 ```bash
-# Backend tests
+# Backend tests (Go)
 cd backend
-npm test
+make test
+# OR: go test ./...
 
 # Frontend tests
+cd frontend
+npm test
+
+# AI services tests
+cd ai-services
+pytest
+
+# Versioning tests
+cd versioning
+pytest
+```
 cd frontend
 npm test
 
@@ -267,14 +313,15 @@ docker-compose up -d postgres
 
 Make sure you installed dependencies:
 ```bash
-# Backend
-cd backend && npm install
+# Backend (Go)
+cd backend && go mod download
 
 # Frontend
 cd frontend && npm install
 
-# AI Services
+# AI Services & Versioning
 cd ai-services && pip install -r requirements.txt
+cd versioning && pip install openai anthropic
 ```
 
 ## Next Steps

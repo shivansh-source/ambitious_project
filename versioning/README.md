@@ -1,38 +1,46 @@
-# Versioning Engine
+# AI-Powered Agentic Version Control (Python)
 
-This directory contains the Git-like version control system adapted for video editing projects.
+This directory contains an AI-powered version control system adapted for video editing projects, using LLM agents for intelligent versioning operations.
+
+## Overview
+
+Unlike traditional Git, this agentic version control system uses Large Language Models (LLMs) to:
+- **Intelligently analyze** timeline changes and generate semantic commit messages
+- **Auto-detect conflicts** and suggest resolution strategies
+- **Understand context** from video content and editing patterns
+- **Provide insights** on editing history and collaboration patterns
 
 ## Structure
 
-### `/git-engine`
-Core version control engine:
+### `/agentic_engine.py`
+Core AI-powered version control engine:
 - Repository initialization
-- Commit creation and management
+- Commit creation with AI-generated messages
 - Branch operations
-- Tag management
-- Remote repository sync
+- AI-assisted merge strategies
+- Intelligent diff analysis
 
 ### `/diff`
-Video project diff algorithms:
+AI-enhanced diff algorithms:
 - Timeline diff (added/removed/modified clips)
-- Effect parameter changes
-- Asset reference changes
+- Semantic change detection
+- Effect parameter analysis
 - Audio track modifications
-- Metadata changes
+- AI-generated diff summaries
 
 ### `/merge`
-Merge strategies for video projects:
-- Three-way merge for timeline conflicts
-- Effect conflict resolution
-- Asset conflict handling
-- Automatic merge when possible
-- Interactive merge tool for conflicts
+AI-assisted merge strategies:
+- LLM-powered conflict detection
+- Intelligent three-way merge
+- Context-aware conflict resolution
+- Automatic merge suggestions
+- Interactive merge with AI guidance
 
 ### `/branches`
 Branch management:
 - Branch creation and deletion
 - Branch switching
-- Branch comparison
+- Branch comparison with AI insights
 - Parallel editing workflows
 - Feature branch isolation
 
@@ -100,7 +108,41 @@ videdit checkout <commit-hash>
 ```
 
 ## Technology Stack
-- **Core Logic**: Custom implementation inspired by Git internals
+- **Language**: Python 3.9+
+- **AI/LLM**: OpenAI API / Anthropic Claude / Local LLMs
+- **Framework**: FastAPI (for versioning API service)
 - **Storage**: JSON/MessagePack for project snapshots
 - **Hashing**: SHA-256 for commit identification
 - **Compression**: LZ4/Zstd for efficient storage
+- **Database**: PostgreSQL (metadata) + MongoDB (timeline snapshots)
+
+## AI-Powered Features
+
+### Semantic Commit Messages
+Instead of manual messages, the AI analyzes changes and generates descriptions:
+```
+✅ "Add intro sequence with logo animation and fade-in effect"
+✅ "Adjust color grading in outdoor scenes (increased saturation by 15%)"
+✅ "Add background music (upbeat electronic) and balance audio levels"
+```
+
+### Intelligent Merge
+The AI considers:
+- Temporal relationships between clips
+- Semantic compatibility of effects
+- User intent from commit history
+- Video editing best practices
+
+Example merge resolution:
+```python
+# AI detects: Both users added clips at 0:10
+# AI suggests: Offset second clip to 0:15 (maintains both edits)
+# AI explains: "Both clips show the same subject, staggering creates better flow"
+```
+
+### Content-Aware Diffs
+Traditional diff shows raw changes. AI diff provides context:
+```
+Traditional: "Modified clip_3 position from 10.5 to 12.0"
+AI-Enhanced: "Moved reaction shot 1.5s later to align with dialogue peak"
+```

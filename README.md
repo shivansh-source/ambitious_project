@@ -74,14 +74,13 @@ VideEdit reimagines video editing as a collaborative, version-controlled workflo
 
 ```
 ambitious_project/
-├── backend/                 # Backend API services
+├── backend/                 # Backend API services (Go)
 │   ├── api/                # REST API endpoints
 │   ├── services/           # Business logic
-│   │   ├── versioning/    # Git-like version control
 │   │   ├── ai-processing/ # AI integration layer
 │   │   └── collaboration/ # Real-time features
 │   ├── models/            # Database models
-│   ├── middleware/        # Express middleware
+│   ├── middleware/        # Gin middleware
 │   └── utils/             # Shared utilities
 │
 ├── frontend/               # Web application
@@ -103,10 +102,10 @@ ambitious_project/
 │   ├── transcription/    # Speech-to-text
 │   └── models/           # ML model storage
 │
-├── versioning/            # Version control engine
-│   ├── git-engine/       # Core VCS logic
+├── versioning/            # AI-Powered Version Control (Python)
+│   ├── agentic_engine.py # AI-powered VCS with LLM agents
 │   ├── diff/             # Diff algorithms
-│   ├── merge/            # Merge strategies
+│   ├── merge/            # AI-assisted merge strategies
 │   └── branches/         # Branch management
 │
 ├── storage/               # File storage
@@ -138,7 +137,7 @@ ambitious_project/
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+
+- Go 1.21+
 - Python 3.9+
 - Docker & Docker Compose
 - PostgreSQL 14+
@@ -184,24 +183,25 @@ See [Developer Guide](docs/developer-guide/GETTING_STARTED.md) for detailed setu
 ## 🛠️ Technology Stack
 
 ### Backend
-- **Runtime**: Node.js / Go
-- **Framework**: Express / Gin
+- **Runtime**: Go 1.21+
+- **Framework**: Gin
 - **Database**: PostgreSQL, MongoDB
 - **Cache**: Redis
 - **Queue**: RabbitMQ / Kafka
 
 ### Frontend
-- **Framework**: React / Vue.js
+- **Framework**: React
 - **State**: Redux Toolkit / Zustand
 - **Video**: FFmpeg.wasm, WebCodecs API
 - **Canvas**: Fabric.js / Konva.js
 - **Real-time**: Socket.io
 
-### AI Services
+### AI Services & Versioning
 - **ML Framework**: TensorFlow / PyTorch
-- **API**: FastAPI / Flask
+- **API**: FastAPI
 - **Video Processing**: OpenCV, FFmpeg
 - **GPU**: CUDA / TensorRT
+- **LLM Integration**: OpenAI / Anthropic (for agentic versioning)
 
 ### Infrastructure
 - **Containers**: Docker, Kubernetes

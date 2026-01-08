@@ -29,13 +29,13 @@ The system is designed as a distributed microservices architecture to support:
 - Direct storage access for video streaming
 
 ### 2. Backend API
-**Technology**: Node.js/Go + Express/Gin
+**Technology**: Go + Gin
 **Purpose**: Core business logic and API gateway
 
 **Responsibilities**:
 - User authentication and authorization
 - Project and asset management
-- Version control operations coordination
+- Coordination with versioning service
 - Collaboration session management
 - Request routing to specialized services
 
@@ -49,9 +49,15 @@ The system is designed as a distributed microservices architecture to support:
 /api/v1/ai/*           - AI service requests
 ```
 
-### 3. Versioning Engine
-**Technology**: Custom implementation + Git concepts
-**Purpose**: Version control system for video projects
+### 3. AI-Powered Versioning Engine
+**Technology**: Python + FastAPI + OpenAI/Anthropic
+**Purpose**: Agentic version control system for video projects
+
+**AI Capabilities**:
+- Auto-generate semantic commit messages using LLM
+- Intelligent merge conflict detection and resolution
+- Context-aware diff analysis with natural language summaries
+- Content understanding from video metadata
 
 **Data Model**:
 ```javascript

@@ -1,0 +1,23 @@
+# Go Module Template for Backend Service
+
+# This is a template for go.mod
+# Copy this to go.mod and remove the header comment
+
+module github.com/shivansh-source/ambitious_project/backend
+
+go 1.21
+
+require (
+	github.com/gin-gonic/gin v1.9.1
+	github.com/lib/pq v1.10.9
+	github.com/go-redis/redis/v8 v8.11.5
+	github.com/golang-jwt/jwt/v5 v5.0.0
+	github.com/gorilla/websocket v1.5.0
+	github.com/streadway/amqp v1.1.0
+	go.mongodb.org/mongo-driver v1.12.1
+	golang.org/x/crypto v0.14.0
+	github.com/joho/godotenv v1.5.1
+	github.com/aws/aws-sdk-go v1.45.24
+	github.com/go-playground/validator/v10 v10.15.5
+	github.com/sirupsen/logrus v1.9.3
+)
