@@ -1,0 +1,154 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:14-alpine
+    container_name: videdit-postgres
+    environment:
+      POSTGRES_USER: videdit
+      POSTGRES_PASSWORD: videdit_dev_password
+      POSTGRES_DB: videdit
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - videdit-network
+
+  # MongoDB for document storage
+  mongodb:
+    image: mongo:6
+    container_name: videdit-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: videdit
+      MONGO_INITDB_ROOT_PASSWORD: videdit_dev_password
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - videdit-network
+
+  # Redis for caching and sessions
+  redis:
+    image: redis:7-alpine
+    container_name: videdit-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - videdit-network
+
+  # RabbitMQ for message queue
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: videdit-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: videdit
+      RABBITMQ_DEFAULT_PASS: videdit_dev_password
+    ports:
+      - "5672:5672"
+      - "15672:15672"  # Management UI
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - videdit-network
+
+  # Backend API Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: videdit-backend
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://videdit:videdit_dev_password@postgres:5432/videdit
+      MONGODB_URL: mongodb://videdit:videdit_dev_password@mongodb:27017/videdit
+      REDIS_URL: redis://redis:6379
+      RABBITMQ_URL: amqp://videdit:videdit_dev_password@rabbitmq:5672
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      - postgres
+      - mongodb
+      - redis
+      - rabbitmq
+    networks:
+      - videdit-network
+    command: npm run dev
+
+  # Frontend Development Server
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: videdit-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:3000
+      VITE_WS_URL: ws://localhost:3000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - videdit-network
+    command: npm run dev
+
+  # AI Services
+  ai-services:
+    build:
+      context: ./ai-services
+      dockerfile: Dockerfile.dev
+    container_name: videdit-ai-services
+    ports:
+      - "8000:8000"
+    environment:
+      REDIS_URL: redis://redis:6379
+      RABBITMQ_URL: amqp://videdit:videdit_dev_password@rabbitmq:5672
+      MODEL_PATH: /models
+      GPU_ENABLED: "false"
+    volumes:
+      - ./ai-services:/app
+      - ai_models:/models
+    depends_on:
+      - redis
+      - rabbitmq
+    networks:
+      - videdit-network
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  # MinIO for S3-compatible storage (development)
+  minio:
+    image: minio/minio:latest
+    container_name: videdit-minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: videdit
+      MINIO_ROOT_PASSWORD: videdit_dev_password
+    volumes:
+      - minio_data:/data
+    networks:
+      - videdit-network
+    command: server /data --console-address ":9001"
+
+volumes:
+  postgres_data:
+  mongodb_data:
+  redis_data:
+  rabbitmq_data:
+  minio_data:
+  ai_models:
+
+networks:
+  videdit-network:
+    driver: bridge
